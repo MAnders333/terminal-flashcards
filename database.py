@@ -15,11 +15,11 @@ class Database:
             "select name from sqlite_master where type='table'").fetchall()
 
     def create_table(self, table_name):
-        if table_name not in self.tables:
-            # create table with three columns: native = user's native language, target = language to be learned, difficulty = difficulty for user to recall target from memory
-            self.c.execute(
-                f"create table if not exists {table_name} (native text,target text,difficulty integer,unique(native,target))")
-            self.tables.append(table_name)
+        table_name = table_name.lower()
+        # create table with three columns: native = user's native language, target = language to be learned, difficulty = difficulty for user to recall target from memory
+        self.c.execute(
+            f"create table if not exists {table_name} (native text,target text,difficulty integer,unique(native,target))")
+        self.tables.append(table_name)
 
     def get_data_to_import(self, file_name, table_name):
         # extract data from csv file and check for duplicates in database
