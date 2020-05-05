@@ -22,7 +22,7 @@ class Database:
                 f"create table if not exists {table_name} (native text,target text,difficulty integer,unique(native,target))")
             self.tables.append(table_name)
 
-    def import_data_from_csv(self, file_name, table_name):
+    def import_data_from_csv(self, table_name, file_name):
         if file_name[-3:] == 'csv':
             # extract data from csv file and check for duplicates in database
             data_from_csv = pd.read_csv(file_name)
@@ -35,8 +35,8 @@ class Database:
             self.conn.commit()
 
     def get_data_from_table(self, table_name):
-        df = self.c.execute(f"select * from {table_name}").fetchall()
-        return df
+        data = self.c.execute(f"select * from {table_name}").fetchall()
+        return data
 
 
 if __name__ == "__main__":
