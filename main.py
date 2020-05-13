@@ -50,6 +50,7 @@ def start(stdscr, Database, language):
                 exit(1)
         for i, learning_batch in enumerate(learning_batches):
             while len(learning_batch) > 0:
+                # TODO: print batch number together with vocabulary and option to exit learning mode
                 screen.print_message(stdscr, f'Batch: {i+1}')
                 flashcard = list(learning_batch[random.randint(
                     0, len(learning_batch) - 1)])
@@ -61,6 +62,7 @@ def start(stdscr, Database, language):
                     learning_batches[-1].append(tuple(flashcard))
                     message = 'That was correct!'
                     screen.print_message(stdscr, message)
+                    # TODO: write update to database
                 elif answer == flashcard[1] and i == len(learning_batches) - 1:
                     message = 'That was correct!'
                     screen.print_message(stdscr, message)
