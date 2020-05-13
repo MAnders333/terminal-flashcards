@@ -19,7 +19,7 @@ class Database:
         # create table with three columns: native = user's native language, target = language to be learned, difficulty = difficulty for user to recall target from memory
         if table_name not in self.tables:
             self.c.execute(
-                f"create table if not exists {table_name} (native text,target text,difficulty integer,unique(native,target))")
+                f"create table if not exists {table_name} (native text,target text,difficulty integer)")
             self.tables.append(table_name)
 
     def import_data_from_csv(self, table_name, file_name):
