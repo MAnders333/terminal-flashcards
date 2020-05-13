@@ -38,16 +38,14 @@ def start(stdscr, Database, language):
         screen.print_message(stdscr, message)
         return 0
     else:
-        learning_batches = [[], [], [], []]
+        learning_batches = [[], [], []]
         for flashcard in flashcards:
-            if flashcard[-1] == 0:
+            if flashcard[-1] == 1:
                 learning_batches[0].append(flashcard)
-            elif flashcard[-1] == 3:
-                learning_batches[1].append(flashcard)
             elif flashcard[-1] == 2:
+                learning_batches[1].append(flashcard)
+            elif flashcard[-1] == 3:
                 learning_batches[2].append(flashcard)
-            elif flashcard[-1] == 1:
-                learning_batches[3].append(flashcard)
             else:
                 exit(1)
         for i, learning_batch in enumerate(learning_batches):

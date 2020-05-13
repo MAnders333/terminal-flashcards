@@ -1,4 +1,8 @@
 .env
-*.db
+*.db*
 test.csv
+resources.csv
+import1.csv
 __pycache__/
+.vim/
+
