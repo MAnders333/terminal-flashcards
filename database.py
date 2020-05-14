@@ -34,6 +34,11 @@ class Database:
                 f"insert into {table_name} values (?,?,?)", df.itertuples(index=False))
             self.conn.commit()
 
+    def write_data_to_table(self, data, table_name):
+        self.c.execute(
+            f"insert into {table_name} values (?,?,?)", data)
+        self.conn.commit()
+
     def get_data_from_table(self, table_name):
         data = self.c.execute(f"select * from {table_name}").fetchall()
         return data

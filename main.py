@@ -50,26 +50,31 @@ def start(stdscr, Database, language):
                 exit(1)
         for i, learning_batch in enumerate(learning_batches):
             while len(learning_batch) > 0:
-                # TODO: print batch number together with vocabulary and option to exit learning mode
-                screen.print_message(stdscr, f'Batch: {i+1}')
                 flashcard = list(learning_batch[random.randint(
                     0, len(learning_batch) - 1)])
-                screen.print_message(stdscr, flashcard[0])
-                answer = screen.get_keyboard_input(stdscr)
-                if answer == flashcard[1] and i != len(learning_batches) - 1:
-                    learning_batch.pop(learning_batch.index(tuple(flashcard)))
-                    flashcard[2] = 1
-                    learning_batches[-1].append(tuple(flashcard))
-                    message = 'That was correct!'
-                    screen.print_message(stdscr, message)
-                    # TODO: write update to database
-                elif answer == flashcard[1] and i == len(learning_batches) - 1:
-                    message = 'That was correct!'
-                    screen.print_message(stdscr, message)
-                else:
-                    message = 'That wasn\'t correct! The correct answer is {}'.format(
-                        flashcard[1])
-                    screen.print_message(stdscr, message)
+                menu = [flashcard[0], 'Exit']
+                menu_idx = 0
+                screen.print_menu(stdscr, menu, menu_idx)
+                chosen_menu_item = screen.get_menu_item(stdscr, menu, menu_idx)
+                if chosen_menu_item == flashcard[0]:
+                    answer = screen.get_keyboard_input(stdscr)
+                    if answer == flashcard[1] and i != len(learning_batches) - 1:
+                        learning_batch.pop(
+                            learning_batch.index(tuple(flashcard)))
+                        flashcard[2] = i + 2
+                        learning_batches[-1].append(tuple(flashcard))
+                        message = 'That was correct!'
+                        screen.print_message(stdscr, message)
+                        Database.write_data_to_table(flashcard, language)
+                    elif answer == flashcard[1] and i == len(learning_batches) - 1:
+                        message = 'That was correct!'
+                        screen.print_message(stdscr, message)
+                    else:
+                        message = 'That wasn\'t correct! The correct answer is {}'.format(
+                            flashcard[1])
+                        screen.print_message(stdscr, message)
+                elif chosen_menu_item == 'Exit':
+                    return 0
 
 
 def main(stdscr):
